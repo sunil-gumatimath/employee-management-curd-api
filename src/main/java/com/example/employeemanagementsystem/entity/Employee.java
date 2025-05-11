@@ -1,7 +1,6 @@
 package com.example.employeemanagementsystem.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,10 +10,20 @@ import lombok.Setter;
 public class Employee {
 
     @Id
+    @Column(name = "empId",nullable = false)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private int empId;
+
+    @Column(name = "empName",nullable = false)
     private String empName;
+
+    @Column(name = "mail",nullable = false)
     private String mail;
+
+    @Column(name = "salary",nullable = false)
     private int salary;
-    private String empDesignation;
+
+    @Column(name = "designation",nullable = false)
+    private String Designation;
 
 }
