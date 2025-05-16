@@ -10,20 +10,20 @@ import lombok.Setter;
 public class Employee {
 
     @Id
-    @Column(name = "empId",nullable = false)
+    @Column(name = "empId", nullable = false)
     @GeneratedValue(strategy = GenerationType.UUID)
-    private int empId;
+    private String empId;  // Changed from int to String for UUID
 
-    @Column(name = "empName",nullable = false)
+    @Column(name = "empName", nullable = false)
     private String empName;
 
-    @Column(name = "mail",nullable = false)
+    @Column(name = "mail", nullable = false)
     private String mail;
 
-    @Column(name = "salary",nullable = false)
+    @Column(name = "salary", nullable = false)
     private int salary;
 
-    @Column(name = "designation",nullable = false)
-    private String Designation;
+    @Column(name = "designation", nullable = false)
+    private String designation;  // Fixed capitalization
 
 }
