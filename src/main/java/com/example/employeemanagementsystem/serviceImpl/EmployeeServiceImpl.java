@@ -11,6 +11,7 @@ import com.example.employeemanagementsystem.service.EmployeeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -42,5 +43,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(()->new UserNotFoundById("Employee with id \" + id + \" not found"));
         return employeeMapper.toResponse(employee);
+    }
+
+    @Override
+    public List<EmployeeRequest> displayAllEmployee() {
+        List<Employee> employees = employeeRepository.findAll();
+        return employees.stream()
+                .map(employeeMapper::toRequest)
+                .toList();
     }
 }

@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @AllArgsConstructor
 public class EmployeeController {
@@ -26,5 +28,11 @@ public class EmployeeController {
     public ResponseEntity<ResponseStructure<EmployeeResponse>> findEmployee(@PathVariable String id){
         EmployeeResponse findEmployee = employeeService.findEmployee(id);
         return RestResponseBuilder.ok("Employee with id = "+id+" found",findEmployee,HttpStatus.OK);
+    }
+
+    @GetMapping("/employee/display")
+    public ResponseEntity<ResponseStructure<List<EmployeeResponse>>> displayAllEmployee(){
+        List<EmployeeResponse> displayAllEmployee = employeeService.displayAllEmployee();
+        return RestResponseBuilder.ok("All employee fetched", displayAllEmployee,HttpStatus.OK);
     }
 }

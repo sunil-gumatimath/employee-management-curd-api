@@ -32,4 +32,13 @@ public class EmployeeMapper {
 
         return employee;
     }
+
+    public EmployeeRequest toRequest(Employee employee){
+        return new EmployeeRequest(
+                employee.getEmpName(),
+                employee.getMail(),
+                employee.getSalary(),
+                employee.getDesignation()
+        );
+    }
 }
