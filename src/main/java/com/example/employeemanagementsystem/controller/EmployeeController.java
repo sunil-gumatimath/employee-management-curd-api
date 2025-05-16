@@ -2,7 +2,7 @@ package com.example.employeemanagementsystem.controller;
 
 import com.example.employeemanagementsystem.dto.request.EmployeeRequest;
 import com.example.employeemanagementsystem.dto.response.EmployeeResponse;
-import com.example.employeemanagementsystem.serviceImpl.EmployeeServiceImpl;
+import com.example.employeemanagementsystem.service.EmployeeService;
 import com.example.employeemanagementsystem.utility.ResponseStructure;
 import com.example.employeemanagementsystem.utility.RestResponseBuilder;
 import lombok.AllArgsConstructor;
@@ -14,25 +14,26 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@RequestMapping("/employees") // RESTful base path
 public class EmployeeController {
 
-    private final EmployeeServiceImpl employeeService;
+    private final EmployeeService employeeService;
 
-    @PostMapping("/employee/add")
-    public ResponseEntity<ResponseStructure<EmployeeRequest>> addEmployee(@RequestBody EmployeeRequest employeeRequest){
-        EmployeeRequest addEmployee = employeeService.addEmployee(employeeRequest);
-        return RestResponseBuilder.created("Employee object Created",addEmployee, HttpStatus.CREATED);
+    @PostMapping("/add")
+    public ResponseEntity<ResponseStructure<EmployeeResponse>> addEmployee(@RequestBody EmployeeRequest employeeRequest){
+        EmployeeResponse addEmployee = employeeService.addEmployee(employeeRequest);
+        return RestResponseBuilder.created("Employee object created", addEmployee, HttpStatus.CREATED);
     }
 
-    @GetMapping("/employee/find/{id}")
+    @GetMapping("/find/{id}")
     public ResponseEntity<ResponseStructure<EmployeeResponse>> findEmployee(@PathVariable String id){
         EmployeeResponse findEmployee = employeeService.findEmployee(id);
-        return RestResponseBuilder.ok("Employee with id = "+id+" found",findEmployee,HttpStatus.OK);
+        return RestResponseBuilder.ok("Employee with id = " + id + " found", findEmployee, HttpStatus.OK);
     }
 
-    @GetMapping("/employee/display")
+    @GetMapping("/display")
     public ResponseEntity<ResponseStructure<List<EmployeeResponse>>> displayAllEmployee(){
         List<EmployeeResponse> displayAllEmployee = employeeService.displayAllEmployee();
-        return RestResponseBuilder.ok("All employee fetched", displayAllEmployee,HttpStatus.OK);
+        return RestResponseBuilder.ok("All employees fetched", displayAllEmployee, HttpStatus.OK);
     }
 }
