@@ -6,9 +6,13 @@ import com.example.employeemanagementsystem.dto.response.EmployeeResponse;
 import java.util.List;
 
 public interface EmployeeService {
-    EmployeeRequest addEmployee(EmployeeRequest employeeRequest);
+    EmployeeResponse addEmployee(EmployeeRequest employeeRequest);
 
     EmployeeResponse findEmployee(String id);
 
-    List<EmployeeRequest> displayAllEmployee();
+    List<EmployeeResponse> displayAllEmployee();
+
+    EmployeeResponse deleteEmployee(String id);
+
+    EmployeeResponse updateEmployee(String id,EmployeeRequest employeeRequest);
 }

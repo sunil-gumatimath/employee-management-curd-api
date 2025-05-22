@@ -22,11 +22,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeMapper employeeMapper;
 
     @Override
-    public EmployeeRequest addEmployee(EmployeeRequest employeeRequest) {
-
-       if (employeeRequest == null){
-           throw new UserObjectNotCreated("Employee request cannot be null");
-       }
+    public EmployeeResponse addEmployee(EmployeeRequest employeeRequest) {
+        if (employeeRequest == null){
+            throw new UserObjectNotCreated("Employee request cannot be null");
+        }
         Employee employee = new Employee();
         employee.setEmpName(employeeRequest.empName());
         employee.setMail(employeeRequest.mail());
@@ -35,21 +34,43 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         employeeRepository.save(employee);
 
-        return employeeRequest;
+        return employeeMapper.toResponse(employee);
     }
 
     @Override
     public EmployeeResponse findEmployee(String id) {
         Employee employee = employeeRepository.findById(id)
-                .orElseThrow(()->new UserNotFoundById("Employee with id \" + id + \" not found"));
+                .orElseThrow(() -> new UserNotFoundById("Employee with id = " + id + " not found"));
         return employeeMapper.toResponse(employee);
     }
 
     @Override
-    public List<EmployeeRequest> displayAllEmployee() {
+    public List<EmployeeResponse> displayAllEmployee() {
         List<Employee> employees = employeeRepository.findAll();
         return employees.stream()
-                .map(employeeMapper::toRequest)
+                .map(employeeMapper::toResponse)
                 .toList();
+    }
+
+    @Override
+    public EmployeeResponse deleteEmployee(String id) {
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundById("Employee with id " + id + " not found"));
+
+        employeeRepository.delete(employee);
+        return employeeMapper.toResponse(employee);
+    }
+
+    @Override
+    public EmployeeResponse updateEmployee(String id, EmployeeRequest employeeRequest) {
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(()-> new UserNotFoundById("Employee not found with id ="+id));
+
+        employee.setEmpName(employeeRequest.empName());
+        employee.setMail(employeeRequest.empName());
+        employee.setSalary(employeeRequest.salary());
+        employee.setDesignation(employeeRequest.designation());
+
+        return employeeMapper.toResponse(employee);
     }
 }

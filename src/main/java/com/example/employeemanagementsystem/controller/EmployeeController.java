@@ -2,6 +2,7 @@ package com.example.employeemanagementsystem.controller;
 
 import com.example.employeemanagementsystem.dto.request.EmployeeRequest;
 import com.example.employeemanagementsystem.dto.response.EmployeeResponse;
+import com.example.employeemanagementsystem.entity.Employee;
 import com.example.employeemanagementsystem.service.EmployeeService;
 import com.example.employeemanagementsystem.utility.ResponseStructure;
 import com.example.employeemanagementsystem.utility.RestResponseBuilder;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/employees") // RESTful base path
+@RequestMapping("/employees")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
@@ -35,5 +36,20 @@ public class EmployeeController {
     public ResponseEntity<ResponseStructure<List<EmployeeResponse>>> displayAllEmployee(){
         List<EmployeeResponse> displayAllEmployee = employeeService.displayAllEmployee();
         return RestResponseBuilder.ok("All employees fetched", displayAllEmployee, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<ResponseStructure<EmployeeResponse>> deleteEmployee(@PathVariable String id){
+        EmployeeResponse employeeResponse = employeeService.deleteEmployee(id);
+        return RestResponseBuilder.ok("Employee with "+id,employeeResponse,HttpStatus.OK);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<ResponseStructure<EmployeeResponse>> updateEmployee(
+            @PathVariable String id,
+            @RequestBody EmployeeRequest employeeRequest){
+
+        EmployeeResponse employeeResponse = employeeService.updateEmployee(id,employeeRequest);
+        return RestResponseBuilder.success(HttpStatus.OK,"Employee Updated successfully",employeeResponse);
     }
 }
